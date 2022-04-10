@@ -36,7 +36,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="max-w-6xl mx-auto py-32">
+            <main class="max-w-6xl mx-auto py-10">
                 {{ $slot }}
             </main>
         </div>
