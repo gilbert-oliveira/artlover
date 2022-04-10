@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Livewire\Checkout;
+use App\Http\Controllers\Stripe\WebhookController;
+use App\Http\Livewire\CheckoutPage;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('checkout', Checkout::class);
+Route::get('checkout', CheckoutPage::class);
 
 Route::middleware([
     'auth:sanctum',
@@ -29,3 +30,5 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 });
+
+Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);

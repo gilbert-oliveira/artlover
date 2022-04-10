@@ -1,3 +1,12 @@
+@push('scripts')
+
+    <script src="https://js.stripe.com/v3/"></script>
+
+    <script>
+
+        var stripe = Stripe('{{ env('STRIPE_KEY') }}');
+    </script>
+@endpush
 <div>
 
     <h1 class="uppercase text-3xl text-gray-700 font-bold text-center">Checkout</h1>
@@ -146,7 +155,22 @@
                     </div>
                 </div>
 
-                <button class="flex py-4 w-full space-x-2.5 items-center justify-center bg-gray-200 text-gray-400">
+                <button x-data="{
+                        async confirmPayment() {
+                                try {
+                                    const stripeSession = await @this.confirmPayment();
+                                    const  {error} = await stripe.redirectToCheckout({ sessionId: stripeSession.id});
+
+                                    if (error) {
+                                        alert(error.message);
+                                    }
+                                }catch (e) {
+                                    console.error('ERROR', e);
+                                }
+                            }
+                        }"
+                        @click="confirmPayment()"
+                        class="flex py-4 w-full space-x-2.5 items-center justify-center bg-gray-200 text-gray-400">
 
                     <x-icon.lock-closed class="w-4 h-4 text-green-300"/>
 

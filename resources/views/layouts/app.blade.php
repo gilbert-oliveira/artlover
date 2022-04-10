@@ -17,6 +17,8 @@
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+
+        @stack('scripts')
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -34,7 +36,7 @@
             @endif
 
             <!-- Page Content -->
-            <main class="max-w-6xl mx-auto py-32">
+            <main class="max-w-6xl mx-auto py-10">
                 {{ $slot }}
             </main>
         </div>
