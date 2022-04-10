@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Stripe\WebhookController;
+use App\Http\Livewire\Admin\ProductsList;
 use App\Http\Livewire\CheckoutPage;
 use Illuminate\Support\Facades\Route;
 
@@ -19,16 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('checkout', CheckoutPage::class);
+Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified'
-])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
-});
+Route::get('checkout', CheckoutPage::class);
+Route::get('products', ProductsList::class);
 
 Route::post('/stripe/webhook', [WebhookController::class, 'handleWebhook']);
